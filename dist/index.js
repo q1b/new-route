@@ -1,1 +1,2 @@
-var s=(...o)=>o.reduce((c,n)=>c+n,0),e=async()=>{console.log(s(1,2,3,4,5))};e().catch(o=>{o instanceof Error&&console.log(o),process.exit(1)});
+#!/usr/bin/env node
+import{confirm as s,intro as r,outro as i,text as a}from"@clack/prompts";var u=(...e)=>e.reduce((t,n)=>t+n,0),m=async()=>{r("Simple Sum Application");let e=[],t=!1;do{let n=await a({message:"Enter a number",placeholder:"43",validate(o){if(o.length===0)return"Value is required!";if(isNaN(Number(o)))return"Value must be a number!"}});e.push(parseInt(n.toString())),t=await s({message:"Do you want to continue?"})}while(t);i(`total sum is ${u(...e)}`),process.exit(1)};m().catch(e=>{e instanceof Error&&console.log(e),process.exit(1)});
