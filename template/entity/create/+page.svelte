@@ -18,7 +18,7 @@
             <Card.Description>ENTITY_DESCRIPTION</Card.Description>
         </Card.Header>
         <Card.Content>
-            <CreateENTITYForm data={data.courseForm} />
+            <CreateENTITYForm data={data.entityForm} />
         </Card.Content>
     </Card.Root>
 </main>

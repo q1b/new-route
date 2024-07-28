@@ -7,12 +7,14 @@ import {
 import path from "path";
 import fs from "fs/promises";
 import { text } from "@clack/prompts";
-var structure = {};
+var sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+var structure1 = {};
+var structure2 = {};
 var main = async () => {
-  const srcDir = path.join(pkg_root_default, "template/create-entity");
+  const srcDir = path.join(pkg_root_default, "template/entity");
   const projectRootDir = path.resolve(process.cwd());
   const relativePath = await text({
-    message: "Enter the relative path to the entity: ",
+    message: "Enter the relative path: ",
     validate: (value) => {
       if (value.startsWith("/")) {
         return "Path should be relative to the project root";
@@ -30,7 +32,19 @@ var main = async () => {
   const description = await text({
     message: "Give the description of entity form: "
   });
-  console.log("ENTITY", entity);
+  [
+    "+page.server.ts",
+    "+page.svelte"
+  ].forEach(async (fileName) => {
+    let file = await fs.readFile(srcDir + "/" + fileName, "utf-8");
+    file = file.replaceAll("ENTITY_TITLE", title);
+    file = file.replaceAll("ENTITY_DESCRIPTION", description);
+    file = file.replaceAll("PARENT_DIR", parentDir);
+    file = file.replaceAll("entity", entity);
+    file = file.replaceAll("ENTITY", entity.charAt(0).toUpperCase() + entity.slice(1));
+    console.log(fileName);
+    structure1[fileName] = file;
+  });
   [
     "+page.server.ts",
     "+page.svelte",
@@ -39,19 +53,23 @@ var main = async () => {
     "create-entity-form.svelte",
     "index.ts"
   ].forEach(async (fileName) => {
-    let file = await fs.readFile(srcDir + "/" + fileName, "utf-8");
-    file = file.replaceAll("entity", entity);
-    file = file.replaceAll("ENTITY", entity.charAt(0).toUpperCase() + entity.slice(1));
+    let file = await fs.readFile(srcDir + "/create/" + fileName, "utf-8");
     file = file.replaceAll("ENTITY_TITLE", title);
     file = file.replaceAll("ENTITY_DESCRIPTION", description);
     file = file.replaceAll("PARENT_DIR", parentDir);
-    console.log(file, fileName.replace("entity", entity));
-    structure[fileName.replace("entity", entity)] = file;
+    file = file.replaceAll("entity", entity);
+    file = file.replaceAll("ENTITY", entity.charAt(0).toUpperCase() + entity.slice(1));
+    structure2[fileName.replace("entity", entity)] = file;
   });
-  console.log(structure);
-  await fs.mkdir(entityPath + `/create-${entity}`, { recursive: true });
-  for (const [fileName, fileContent] of Object.entries(structure)) {
-    await fs.writeFile(entityPath + `/create-${entity}/${fileName}`, fileContent, {
+  await sleep(1e3);
+  await fs.mkdir(entityPath + "/" + entity + `/create`, { recursive: true });
+  for (const [fileName, fileContent] of Object.entries(structure1)) {
+    await fs.writeFile(entityPath + `/${entity}/${fileName}`, fileContent, {
+      encoding: "utf-8"
+    });
+  }
+  for (const [fileName, fileContent] of Object.entries(structure2)) {
+    await fs.writeFile(entityPath + "/" + entity + `/create/${fileName}`, fileContent, {
       encoding: "utf-8"
     });
   }
