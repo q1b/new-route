@@ -9,6 +9,7 @@
     },
     "files": [
         "dist",
+        "template",
         "README.md",
         "LICENSE",
         "CHANGELOG.md",
@@ -16,6 +17,7 @@
     ],
     "scripts": {
         "build": "tsup",
+        "start": "tsup ./src/*",
         "dev": "tsup ./src/* --watch ",
         "format": "prettier --write .",
         "release": "changeset publish"

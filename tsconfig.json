@@ -28,6 +28,7 @@
 	},
 	"include": [
 		"src",
-		"tsup.config.ts"
+		"tsup.config.ts",
+		"template"
 	]
 }
