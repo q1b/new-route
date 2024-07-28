@@ -3,7 +3,7 @@
     import * as Dialog from '$lib/components/ui/dialog';
 	import * as Drawer from '$lib/components/ui/drawer';
 	import { type CreateENTITYFormType } from './index.js';
-	import CreateENTITYForm from './create-entity-form.svelte.js';
+	import CreateENTITYForm from './create-entity-form.svelte';
 
     let { data, open = $bindable(), }: {
         open?: boolean;

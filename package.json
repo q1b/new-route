@@ -1,6 +1,6 @@
 {
     "name": "new-route",
-    "version": "0.0.9",
+    "version": "0.0.10",
     "description": "new-route is a svelte-kit, route creator cli for personal use, work in progress",
     "type": "module",
     "exports": "./dist/index.js",

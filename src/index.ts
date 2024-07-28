@@ -22,6 +22,7 @@ const main = async () => {
   })
   const entityPath = path.resolve(projectRootDir, relativePath as string);
   const parentDir = path.dirname(entityPath);
+  const parentDirName = path.basename(parentDir);
 
   const entity = await text({
     message: "Enter the name of the entity: ",
@@ -40,7 +41,7 @@ const main = async () => {
     let file = await fs.readFile(srcDir + '/' + fileName, "utf-8");
     file = file.replaceAll("ENTITY_TITLE", title);
     file = file.replaceAll("ENTITY_DESCRIPTION", description);
-    file = file.replaceAll("PARENT_DIR", parentDir);
+    file = file.replaceAll("PARENT_DIR", parentDirName);
     file = file.replaceAll("entity", entity);
     file = file.replaceAll("ENTITY", entity.charAt(0).toUpperCase() + entity.slice(1));
     console.log(fileName);
@@ -58,7 +59,7 @@ const main = async () => {
     let file = await fs.readFile(srcDir + '/create' + '/' + fileName, "utf-8");
     file = file.replaceAll("ENTITY_TITLE", title);
     file = file.replaceAll("ENTITY_DESCRIPTION", description);
-    file = file.replaceAll("PARENT_DIR", parentDir);
+    file = file.replaceAll("PARENT_DIR", parentDirName);
     file = file.replaceAll("entity", entity);
     file = file.replaceAll("ENTITY", entity.charAt(0).toUpperCase() + entity.slice(1));
     structure2[fileName.replace("entity", entity)] = file;
